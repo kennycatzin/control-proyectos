@@ -27,9 +27,14 @@ ingresar( forma: NgForm ) {
   if (forma.invalid) {
     return;
   }
-  let usuario = new Usuario(null, forma.value.email, forma.value.password );
+  let usuario = new Usuario(forma.value.email, forma.value.email, forma.value.password, 0, "");
   this.usuarioService.login( usuario, forma.value.recuerdame )
-        .subscribe( correcto => this.router.navigate(['/inicio']) );
+        .subscribe( data => {
+          this.router.navigate(['/inicio']);
+
+        }
+          
+      );
   // this.router.navigate['/inicio'];
 }
 ingreso() {

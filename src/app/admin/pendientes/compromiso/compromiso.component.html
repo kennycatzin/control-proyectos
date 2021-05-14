@@ -1,0 +1,183 @@
+<div class="row page-titles">
+    <div class="col-12 row">
+        <div class="col-6 text-left">
+            <h3 class="text-themecolor">Compromisos</h3>
+        </div>
+        <div class="col-md-6 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="['/pendientes']">Pendientes</a></li>
+                <li class="breadcrumb-item active">Compromisos</li>
+            </ol>
+        </div>
+       
+    </div>
+</div>
+
+<div class="card text-center">
+    <div class="card-header">
+      Información del compromisos
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"> Título: {{pendiente.titulo}}</h5>
+      <p class="card-text">Solicitante: {{pendiente.solicitante}}</p>
+      <p class="card-text">Descripción: {{pendiente.descripcion}}</p>
+    </div>
+    <div class="card-footer text-muted">
+        {{pendiente.fecha}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12 row">
+                    <div class="col-6 text-left">
+                        <h4 class="card-title">Compromisos / Acuerdos</h4>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button (click)="nuevo()" type="button" class="btn btn-success align-self-auto" data-toggle="modal" data-target="#exampleModal">
+                            Agregar compromiso
+                            <i class="fas fa-play-circle"></i>     
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table class="table color-table info-table">
+                        <thead class="text-center">
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th>Estatus</th>
+                                <th class="text-center">Compromiso</th>
+                                <th>Responsable</th>
+                                <th>archivo</th>
+                                <th class="text-center">Fecha</th>
+                                <th>Prioridad</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let obj of objeto; let i = index">
+                                <!-- <td>{{i+1}}</td> -->
+                                <td>{{obj.id_compromiso}}</td>
+                                <td>{{obj.descripcion}}</td>
+                                <td>{{obj.compromiso}}</td>
+                                <td>{{obj.responsable}}</td>
+                                <td>
+                                    <a href="{{rutaArchivo}}{{obj.archivo}}" target="_blank">
+                                    {{obj.archivo}}</a>
+                                </td>
+                                <td>{{obj.fecha}}</td>
+                                <td>{{obj.prioridad}}</td>
+                                <td class="d-flex justify-content-between">
+                                    <a data-toggle="modal" data-target="#exampleModal" (click)="actulizar(obj)"><i class="fas fa-edit text-warning"></i></a> 
+                                    <a (click)="borrar(obj)"><i class="fas fa-trash-alt text-danger"></i></a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Compromiso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarCatalogo(f)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Compromiso</label>
+                        <input [(ngModel)]="compromiso.compromiso" type="text" class="form-control" name="titulo" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Responsable</label>
+                        <input [(ngModel)]="compromiso.responsable" type="text" class="form-control" name="solicitante" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleInputEmail1">Estatus</label>
+                                <select [(ngModel)]="compromiso.id_status" name="estatus" class="form-control">
+                                    <option selected value="0">Seleccione la prioridad</option>
+                                    <option *ngFor="let obj of estatus" [value]="obj.id_status">
+                                        {{obj.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Archivo</label>
+                                <input (change)="seleccionImagen( $event.target.files[0] )" type="file" class="form-control" name="archivo" aria-describedby="emailHelp" placeholder="Ingrese la descripción">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleInputEmail1">Prioridad</label>
+                                <select [(ngModel)]="compromiso.prioridad" name="prioridad" class="form-control">
+                                    <option selected value="0">Seleccione la prioridad</option>
+                                    <option  value="1">1</option>
+                                    <option  value="2">2</option>
+                                    <option  value="3">3</option>
+                                    <option  value="4">4</option>
+                                    <option  value="5">5</option>
+                                </select>                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Fecha</label>
+                                <input [(ngModel)]="compromiso.fecha" type="date" class="form-control" name="fecha" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <div class="modal-footer">
+                    <button id="cierraModal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#observaciones">
+    Launch demo modal
+  </button>
+
+<div class="modal fade" id="observaciones" tabindex="-1" aria-labelledby="observacionesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="observacionesLabel">Observaciones</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form #o="ngForm" ngNativeValidate (ngSubmit)="guardarObservacion(o)">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Observación de edición</label>
+                        <textarea [(ngModel)]="objObservacion.descripcion" name="descripcion" class="form-control rounded-0"  rows="10" required></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="cierraModalObs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

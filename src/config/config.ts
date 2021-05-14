@@ -1,3 +1,8 @@
-const PROD = 'https://nutri-server.herokuapp.com';
-const LOCAL = 'http://192.168.1.93:8888/versiones/public/api';
-export const URL_SERVICIOS = LOCAL;
+const PROD = 'https://dev-proyectosddp.yucatan.gob.mx/backend/public/api';
+const LOCAL = 'http://localhost/versiones-api/public/api';
+
+const RUTAPROD = 'https://dev-proyectosddp.yucatan.gob.mx/backend/public';
+const RUTALOCAL = 'http://localhost/versiones-api/public';
+export const URL_SERVICIOS = PROD;
+export const RUTAARCHIVOS = RUTAPROD;
+

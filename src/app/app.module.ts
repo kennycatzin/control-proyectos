@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 
 import { APP_ROUTING } from './app.routes';
 // import { CuentasxpagarModule, cuentasxpagarModule } from './erp/cuentasxpagar/cuentasxpagar.module';
-import { CuentasxpagarModule } from './admin/cuentasxpagar.module';
 
 import { MatTabsModule } from '@angular/material';
 
@@ -18,6 +17,7 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { RegistroComponent } from './login/registro.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ProyectosddpModule } from './admin/proyectosddp.module';
 
 
 
@@ -34,7 +34,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     BrowserModule,
     APP_ROUTING,
-    CuentasxpagarModule,
+    ProyectosddpModule,
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule

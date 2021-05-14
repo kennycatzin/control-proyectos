@@ -1,126 +1,146 @@
 <div class="row page-titles">
-    <div class="col-md-5 align-self-center">
-        <h3 class="text-themecolor">Módulos de usuarios</h3>
-    </div>
-
-</div>
-
-<div class="text-right">
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-        Agregar usuario
-        <i class="fas fa-user-plus"></i>
-
-
+    <div class="col-12 row">
+        <div class="col-6 text-left">
+            <h3 class="text-themecolor">Módulo de usuarios</h3>
+        </div>
+        <!-- <div class="col-6 text-right">
+            <button (click)="nuevo()" type="button" class="btn btn-success align-self-auto" data-toggle="modal" data-target="#exampleModal">
+                Agregar pendiente
+                <i class="fas fa-play-circle"></i>     
         </button>
+        </div> -->
+    </div>
 </div>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body row align-items-center">
+                <div class="col-6">
+                    <button (click)="nuevo()" type="button" class="btn btn-info align-self-auto" data-toggle="modal" data-target="#exampleModal">
+                        Agregar usuario
+                        <i class="fas fa-play-circle"></i>     
+                    </button>                
+                </div>
 
-<br>
+                <div class="col-6">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Usuario</label>
+                        <input #input (keyup)="busqueda( input.value )" class="form-control" type="text" placeholder="Buscar elemento...">
+                    </div>
+                </div>
+
+
+
+               
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12" *ngIf="cargando">
+    <div class="alert alert-warning text-center">
+        <strong>Cargando</strong>
+        <br>
+        <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+        <br>
+        <span>Espere por favor</span>
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Catálogo de usuarios</h4>
+                <h4 class="card-title">Catálogo de pendientes</h4>
                 <div class="table-responsive">
                     <table class="table color-table info-table">
-                        <thead>
+                        <thead class="text-center">
                             <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th class="text-center">ID</th>
+                                <th>Usuario</th>
+                                <th class="text-center">Email</th>
+                                <th>Tipo</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nigam</td>
-                                <td>Eichmann</td>
-                                <td>@Sonu</td>
-                                <td class="text-center"><a href=""><i class="fas fa-edit text-warning"></i></a> <a href=""><i class="fas fa-trash-alt"></i></a> </td>
-
-
-
-
-
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Deshmukh</td>
-                                <td>Prohaska</td>
-                                <td>@Genelia</td>
-                                <td class="text-center"><a href=""><i class="fas fa-edit text-warning"></i></a> <a href=""><i class="fas fa-trash-alt"></i></a> </td>
-
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Roshan</td>
-                                <td>Rogahn</td>
-                                <td>@Hritik</td>
-                                <td class="text-center"><a href=""><i class="fas fa-edit text-warning"></i></a> <a href=""><i class="fas fa-trash-alt"></i></a> </td>
-
+                        <tbody class="text-center">
+                            <tr *ngFor="let obj of objeto; let i = index">
+                                <!-- <td>{{i+1}}</td> -->
+                                <td>{{obj.id}}</td>
+                                <td>{{obj.name}}</td>
+                                <td>{{obj.email}}</td>
+                                <td>{{obj.activo}}</td>
+                                <td class="d-flex justify-content-between">
+                                    <a data-toggle="modal" data-target="#exampleModal" (click)="actulizar(obj)"><i class="fas fa-edit text-warning"></i></a> 
+                                    <a (click)="borrar(obj)"><i class="fas fa-trash-alt text-danger"></i></a> </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div *ngIf="paginado" class="col-12 row text-center">
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(-6)" class="btn btn-secondary">Anteriores</button>
+                        </div>
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(6)" class="btn btn-secondary">Siguientes</button>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
             </div>
-            <div class="modal-body">
-                <form ngNativeValidate [formGroup]="forma">
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarCatalogo(f)">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre</label>
-                        <input formControlName="nombre" type="text" class="form-control" name="nombre" aria-describedby="emailHelp" placeholder="Ingrese el nombre" required>
+                        <label for="exampleInputEmail1">Nombre de usuario</label>
+                        <input [(ngModel)]="usuario.name" type="text" class="form-control" name="name" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Correo</label>
-                        <input formControlName="email" type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Ingrese el correo" required>
+                        <label for="email">Correo electrónico</label>
+                        <input [(ngModel)]="usuario.email" type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleInputEmail1">Password</label>
+                                <input [(ngModel)]="usuario.password" type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="****">
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Confirma password</label>
+                                <input  [(ngModel)]="usuario.password_confirmation" type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="****">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tipo usuario</label>
+                        <select [(ngModel)]="usuario.tipo" name="tipo" class="form-control" required>
+                            <option selected value="">Seleccione el tipo de usuario</option>
+                            <option  value="1">Administrador</option>
+                            <option  value="2">Usuario</option>
+                        </select>       
                     </div>
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Contraseña</label>
-                        <input formControlName="password" type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="Ingrese la contraseña" required>
-                    </div>
-                    <div class="form-group" *ngIf="forma.errors?.sonIguales && !forma.pristine">
-                        <p class="text-danger">
-                            Las contraseñas deben de coincidir
-                        </p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Confirme contraseña</label>
-                        <input formControlName="password2" type="password" class="form-control" name="password2" aria-describedby="emailHelp" placeholder="Confirme la contraseña" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Seleccione un rol</label>
-                        <select class="form-control" name="rol">
-                              <option>Administrador</option>
-                              <option>Operativo</option>                             
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Imagen</label>
-                        <input type="file" class="form-control" id="img" placeholder="Password">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" (click)="guardar()" class="btn btn-info">Guardar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cierraModal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+

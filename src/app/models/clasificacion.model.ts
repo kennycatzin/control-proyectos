@@ -1,8 +1,7 @@
 export class Clasificacion {
     constructor(
-        public nombre: string,
-        public tipo: string,
-        public id?: number
+        public descripcion: string,
+        public id_clasificacion?: number
     ) {
     }
 }

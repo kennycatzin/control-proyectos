@@ -1,0 +1,156 @@
+<div class="row page-titles">
+    <div class="col-12 row">
+        <div class="col-6 text-left">
+            <h3 class="text-themecolor">Bitácora de compromisos</h3>
+        </div>
+        <!-- <div class="col-6 text-right">
+            <button (click)="nuevo()" type="button" class="btn btn-success align-self-auto" data-toggle="modal" data-target="#exampleModal">
+                Agregar pendiente
+                <i class="fas fa-play-circle"></i>     
+        </button>
+        </div> -->
+    </div>
+</div>
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body row align-items-center">
+                <div class="col-1">
+                    <div class="form-check">
+                        <input (change)="cambioFechas($event)"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="dia" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Día
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input (change)="cambioFechas($event)"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="periodo">
+                        <label class="form-check-label" for="exampleRadios2">
+                          Periodo
+                        </label>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="dia">
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Fecha</label>
+                        <input [(ngModel)]="fecha" class="form-control" type="date">
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="periodo">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleInputEmail1">Fecha inicial</label>
+                                <input [(ngModel)]="fechaInicial" class="form-control" type="date">        
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1">Fecha final</label>
+                                <input [(ngModel)]="fechaFinal" class="form-control" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nombre de usuario</label>
+                        <input [(ngModel)]="nombre" class="form-control" type="text" placeholder="Ingrese el nombre">
+                    </div>
+                </div>
+                <div class="col-1 text-left">   
+                    <button class="btn btn-info" (click)="buscar()">
+                        <i class="fas fa-search"></i>
+                        Buscar
+                    </button>      
+                </div>
+                <div class="col-2 text-rigth">   
+                    <button class="btn btn-warning" (click)="exportexcel()">
+                        <i class="fas fa-download"></i>
+                        Exportar
+                    </button>      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12" *ngIf="cargando">
+    <div class="alert alert-warning text-center">
+        <strong>Cargando</strong>
+        <br>
+        <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+        <br>
+        <span>Espere por favor</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Catálogo de compromisos</h4>
+                <div class="table-responsive">
+                    <table id="bitPendientes" class="table color-table info-table">
+                        <thead class="text-center">
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th>Fecha</th>
+                                <th class="text-center">Usuario</th>
+                                <th>Evento</th>
+                                <th class="text-center">Valores - Modificaciones</th>
+                                <td class="none">Observaciones</td>
+                                <th >Observaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center ">
+                            <tr *ngFor="let obj of obj; let i = index">
+                                <td>{{obj.id_movimiento}}</td>
+                                <td>{{obj.fecha_creacion}}</td>
+                                <td>{{obj.usuario_creacion}}</td>
+                                <td>{{obj.movimiento}}</td>
+                                <td>{{obj.descripcion}}</td>
+                                <td class ="none">{{obj.activo}}</td>
+                                <td >
+                                    <a *ngIf="obj.observacion != null" data-toggle="modal" (click)="verObservacion(obj.observacion)" data-target="#observaciones"><i class="fas fa-eye text-primary"></i>
+                                    </a> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="paginado" class="col-12 row text-center">
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(-6)" class="btn btn-secondary">Anteriores</button>
+                        </div>
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(6)" class="btn btn-secondary">Siguientes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="observaciones" tabindex="-1" aria-labelledby="observacionesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="observacionesLabel">Observaciones</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form #o="ngForm" ngNativeValidate>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Descripción</label>
+                        <textarea [(ngModel)]="observacion" name="descripcion" class="form-control rounded-0"  rows="10" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cierraModalObs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 // import { SubirArchivoService } from '../archivos/subir-archivo.service';
 
 
@@ -24,10 +25,13 @@ export class UsuarioService {
   guardarStorage( id: string, token: string, usuario: Usuario, menu: any ) {
       localStorage.setItem('id', id);
       localStorage.setItem('token', token);
+      localStorage.setItem('usuario', usuario.name);
+
 
       this.usuario = usuario;
       this.token = token;
   }
+
   estalogueado() {
     return (this.token.length > 5 ) ? true : false;
   }
@@ -50,11 +54,8 @@ export class UsuarioService {
       localStorage.removeItem('email');
     }
     const url = URL_SERVICIOS + '/auth/login';
-    console.log(url);
-    console.log(usuario);
     return this.http.post( url, usuario )
     .pipe(map( (resp: any) => {
-       console.log(resp);
        this.varia = resp.id;
        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
        return true;
@@ -66,7 +67,7 @@ export class UsuarioService {
 
 
   crearUsuario( usuario: Usuario) {
-    const url = URL_SERVICIOS + '/usuario';
+    const url = URL_SERVICIOS + '/register';
     return this.http.post( url, usuario )
       .pipe(map( (resp: any) => {
         swal.fire('Usuario creado exitósamente', '' + usuario.email + '', 'success');
@@ -76,9 +77,17 @@ export class UsuarioService {
         return Observable.throw(err);
       }));
     }
+    actualizar(id: number, usuario: Usuario) {
+      const url = URL_SERVICIOS + '/usuario/editar-usuario';
+      return this.http.post(url, usuario)
+      .pipe(map((resp: any) => {
+        swal.fire('Registro Actualizado', 'El registro se ha actualizado correctamente', 'success');
+        return true;
+      }));
+    }
 
     obtenerUsuarios( desde: number = 0) {
-        const url = URL_SERVICIOS + '/usuario?desde=' + desde;
+        const url = URL_SERVICIOS + '/usuario/get-usuarios/'+ desde;
         return this.http.get(url);
     }
   logout() {
@@ -88,6 +97,7 @@ export class UsuarioService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     localStorage.removeItem('menu');
+    localStorage.removeItem('tipo');
     this.router.navigate(['/login']);
   }
   // cambiarImagen(archivo: File, id: string) {
@@ -105,13 +115,21 @@ export class UsuarioService {
             .pipe(map((resp: any) => resp.usuarios));
 
   }
-  borrarUsuario(id: string) {
-    const url = URL_SERVICIOS + '/usuario/' + id;
-    return this.http.delete(url)
+  borrar(obj: any) {
+    const url = URL_SERVICIOS + '/usuario/delete-usuario';
+    return this.http.post(url, obj)
     .pipe(map((resp: any) => {
-      swal.fire('Usuario eliminado', 'El usuario se ha eliminado correctamente', 'success');
+      swal.fire('Registro eliminado', 'El registro se ha eliminado correctamente', 'success');
       return true;
     }));
+  }
+  busqueda( nombre: string ) {
+    const objeto = {
+      "buscador": nombre
+    }
+    let url = URL_SERVICIOS + '/usuario/busqueda';
+    return this.http.post(url, objeto)
+            .pipe(map((resp: any) => resp.data));
   }
 }
 

@@ -8,27 +8,25 @@ export class SidebarService {
     {
       titulo: 'Inicio',
       icono: 'mdi mdi-home',
+      hijos: [],
       url: '/inicio'
     },
     {
       titulo: 'Pendientes',
       icono: 'mdi mdi-calendar-text',
-      url: '/usuarios'
+      hijos: [],
+      url: '/pendientes'
     },
     {
       titulo: 'Compromisos',
       icono: 'mdi mdi-view-list',
-      url: '/alimento'
+      hijos: [],
+      url: '/compromisos'
     },
     {
-      titulo: 'Bitácora',
-      icono: 'mdi mdi-book-open',
-      url: '/ejercicio'
-    },
-    {
-      titulo: 'Pasiente',
-      icono: 'mdi mdi-emoticon',
-      url: '/pasiente'
+      titulo: 'Usuarios',
+      icono: 'mdi mdi-account-multiple',
+      url: '/usuarios'
     }
   ];
   constructor() { }

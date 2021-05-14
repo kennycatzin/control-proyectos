@@ -17,8 +17,12 @@ export class ClasificacionService {
   }
 
 
-  getClasificacion( desde: Number = 0) {
-    let url = URL_SERVICIOS + '/api/clasificaciones?desde=' + desde;
+  getClasificacion( ) {
+    let url = URL_SERVICIOS + '/clasificacion/get-clasificaciones';
+    return this.http.get(url);
+  }
+  getEstatus( ) {
+    let url = URL_SERVICIOS + '/clasificacion/get-estatus';
     return this.http.get(url);
   }
   getClasificacionMuscular( desde: Number = 0) {
@@ -31,7 +35,6 @@ export class ClasificacionService {
   }
   crearClasificacion(clasificacion: Clasificacion) {
     let url = URL_SERVICIOS + '/api/clasificacion';
-    console.log(clasificacion);
     return this.http.post( url, clasificacion )
       .pipe(map( (resp: any) => {
         swal.fire('Elemento creada exitósamente', '' , 'success');
