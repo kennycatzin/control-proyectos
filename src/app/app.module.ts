@@ -17,7 +17,7 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { RegistroComponent } from './login/registro.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ProyectosddpModule } from './admin/proyectosddp.module';
+import { ProyectosddpModule } from './admin/seguros-web.module';
 
 
 

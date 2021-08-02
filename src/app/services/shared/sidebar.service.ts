@@ -12,21 +12,21 @@ export class SidebarService {
       url: '/inicio'
     },
     {
-      titulo: 'Pendientes',
+      titulo: 'Clientes',
       icono: 'mdi mdi-calendar-text',
       hijos: [],
-      url: '/pendientes'
+      url: '/clientes'
     },
     {
-      titulo: 'Compromisos',
+      titulo: 'Polizas',
       icono: 'mdi mdi-view-list',
       hijos: [],
-      url: '/compromisos'
+      url: '/polizas'
     },
     {
-      titulo: 'Usuarios',
+      titulo: 'Agentes',
       icono: 'mdi mdi-account-multiple',
-      url: '/usuarios'
+      url: '/agentes'
     }
   ];
   constructor() { }

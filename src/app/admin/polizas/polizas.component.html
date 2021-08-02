@@ -1,7 +1,7 @@
 <div class="row page-titles">
     <div class="col-12 row">
         <div class="col-6 text-left">
-            <h3 class="text-themecolor">Módulo de agentes</h3>
+            <h3 class="text-themecolor">Módulo de polizas</h3>
         </div>
         <!-- <div class="col-6 text-right">
             <button (click)="nuevo()" type="button" class="btn btn-success align-self-auto" data-toggle="modal" data-target="#exampleModal">
@@ -17,7 +17,7 @@
             <div class="card-body row align-items-center">
                 <div class="col-6">
                     <button (click)="nuevo()" type="button" class="btn btn-info align-self-auto" data-toggle="modal" data-target="#exampleModal">
-                        Agregar agente
+                        Agregar poliza
                         <i class="fas fa-play-circle"></i>     
                     </button>                
                 </div>
@@ -52,25 +52,49 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Catálogo de agentes</h4>
+                <h4 class="card-title">Listado de polizas</h4>
                 <div class="table-responsive">
                     <table class="table color-table info-table">
                         <thead class="text-center">
                             <tr>
-                                <th class="text-center">ID</th>
-                                <th>Agente</th>
-                                <th class="text-center">Email</th>
-                                
+                                <th class="text-center">#</th>
+                                <th class="text-center">Aseguradora</th>
+                                <th class="text-center">Precio</th>
+                                <th class="text-center">Fecha inicio</th>
+                                <th class="text-center">Fecha vigencia</th>
+                                <th class="text-center">Cliente</th>
+                                <th class="text-center">Tipo</th>
+                                <th class="text-center">Estatus</th>
+                                <th class="text-center">Opciones</th>
+
                             </tr>
                         </thead>
                         <tbody class="text-center">
                             <tr *ngFor="let obj of objeto; let i = index">
-                                <!-- <td>{{i+1}}</td> -->
-                                <td>{{obj.id}}</td>
-                                <td>{{obj.nombre}}</td>
-                                <td>{{obj.email}}</td>                                
+                                <td>{{i+1}}</td>
+                                <td>{{obj.aseguradora}}</td> 
+                                <td>{{obj.precio}}</td>
+                                <td>{{obj.fecha_inicio}}</td>  
+                                <td>{{obj.fecha_vigencia}}</td>  
+                                <td>{{obj.nombre}}</td>  
+                                <td>{{obj.tipo}}</td>  
+                                <td>{{obj.estatus}}</td> 
+                                <td class="d-flex justify-content-between">
+                                    <a data-toggle="modal" data-target="#exampleModal" (click)="actulizar(obj)"><i class="fas fa-edit text-warning"></i></a> 
+                                    <a (click)="borrar(obj)"><i class="fas fa-trash-alt text-danger"></i></a> 
+                                </td>
+                              
                         </tbody>
                     </table>
+                    <div class="col-12 row text-center">
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(-6)" class="btn btn-secondary">Anteriores</button>
+                        </div>
+                        <div class="col-6">
+                            <button (click)="cambiarDesde(6)" class="btn btn-secondary">Siguientes</button>
+
+                        </div>
+                    </div>
                     
                 </div>
             </div>
@@ -80,9 +104,9 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" >
-        <div class="modal-content">
+        <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Poliza</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -90,25 +114,21 @@
             <form #f="ngForm" ngNativeValidate (ngSubmit)="guardarCatalogo(f)">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre de usuario</label>
-                        <input [(ngModel)]="usuario.nombre" type="text" class="form-control" name="name" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                        <label for="exampleInputEmail1">Nombre de cliente</label>
+                        <input [(ngModel)]="persona.nombre" type="text" class="form-control" name="nombre" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Correo electrónico</label>
-                        <input [(ngModel)]="usuario.email" type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                        <input [(ngModel)]="persona.email" type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                    </div>  
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Teléfono</label>
+                        <input [(ngModel)]="persona.telefono" type="text" class="form-control" name="telefono" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col">
-                                <label for="exampleInputEmail1">Password</label>
-                                <input [(ngModel)]="usuario.password" type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="****">
-                            </div>
-                            <div class="col">
-                                <label for="exampleInputEmail1">Confirma password</label>
-                                <input  [(ngModel)]="usuario.password_confirmation" type="password" class="form-control" name="password" aria-describedby="emailHelp" placeholder="****">
-                            </div>
-                        </div>
-                    </div>  
+                        <label for="email">Fecha nacimiento</label>
+                        <input [(ngModel)]="persona.fecha_nacimiento" type="date" class="form-control" name="fecha_nacimiento" aria-describedby="emailHelp" placeholder="Ingrese la descripción" required>
+                     </div>                   
 
                 </div>
                 <div class="modal-footer">

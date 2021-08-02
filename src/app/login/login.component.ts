@@ -27,7 +27,7 @@ ingresar( forma: NgForm ) {
   if (forma.invalid) {
     return;
   }
-  let usuario = new Usuario(forma.value.email, forma.value.email, forma.value.password, 0, "");
+  let usuario = new Usuario(forma.value.email, forma.value.email, forma.value.password, "", 0);
   this.usuarioService.login( usuario, forma.value.recuerdame )
         .subscribe( data => {
           this.router.navigate(['/inicio']);

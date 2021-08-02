@@ -25,7 +25,7 @@ export class UsuarioService {
   guardarStorage( id: string, token: string, usuario: Usuario, menu: any ) {
       localStorage.setItem('id', id);
       localStorage.setItem('token', token);
-      localStorage.setItem('usuario', usuario.name);
+      localStorage.setItem('usuario', usuario.nombre);
 
 
       this.usuario = usuario;
@@ -53,11 +53,11 @@ export class UsuarioService {
     } else {
       localStorage.removeItem('email');
     }
-    const url = URL_SERVICIOS + '/auth/login';
+    const url = URL_SERVICIOS + '/login';
     return this.http.post( url, usuario )
     .pipe(map( (resp: any) => {
        this.varia = resp.id;
-       this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
+       this.guardarStorage(resp.agente.id, resp.token, resp.agente, resp.menu);
        return true;
     }), catchError(err => {
       swal.fire('Credenciales incorrectas', '' + usuario.email + '', 'error');
@@ -87,7 +87,7 @@ export class UsuarioService {
     }
 
     obtenerUsuarios( desde: number = 0) {
-        const url = URL_SERVICIOS + '/usuario/get-usuarios/'+ desde;
+        const url = URL_SERVICIOS + '/agentes';
         return this.http.get(url);
     }
   logout() {

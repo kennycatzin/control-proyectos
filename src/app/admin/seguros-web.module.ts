@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ProyectosddpComponent } from './proyectosddp.component';
+import { SegurosWebComponent } from './seguros-web.component';
 
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { sharedModule } from '../shared/shared.module';
-import { CUENTAS_ROUTES } from './proyectosddp.routes';
+import { CUENTAS_ROUTES } from './seguros-web.routes';
 import { MatTabsModule } from '@angular/material';
 import { InicioComponent } from './inicio/inicio.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -16,6 +16,8 @@ import { BitacoraComponent } from './bitacora/bitacora.component';
 import { CompromisoComponent } from './pendientes/compromiso/compromiso.component';
 import { BitacoraCompromisoComponent } from './bitacora-compromiso/bitacora-compromiso.component';
 import { BitacoraPendienteComponent } from './bitacora-pendiente/bitacora-pendiente.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { PolizasComponent } from './polizas/polizas.component';
 
 
 
@@ -25,13 +27,15 @@ import { BitacoraPendienteComponent } from './bitacora-pendiente/bitacora-pendie
   declarations: [
     InicioComponent,
     UsuariosComponent,
-    ProyectosddpComponent,
+    SegurosWebComponent,
     PendientesComponent,
     CompromisosComponent,
     BitacoraComponent,
     CompromisoComponent,
     BitacoraCompromisoComponent,
     BitacoraPendienteComponent,
+    ClientesComponent,
+    PolizasComponent,
 
   ],
   imports: [

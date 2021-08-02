@@ -4,13 +4,7 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul *ngFor="let menu of sidebar.menu; let i = index; let l = count;" id="sidebarnav">
-                <li *ngIf="i == 2" > <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Bitácora </span></a>
-                    <ul *ngIf="i == 2" aria-expanded="false" class="collapse">
-                        <li><a routerLink="/bitacora-pendiente">Pendientes </a></li>
-                        <li><a routerLink="/bitacora-compromiso">Compromisos</a></li>
-                      
-                    </ul>
-                </li>
+                
                 <li> 
                     <a class="waves-effect waves-dark" routerLinkActive="active" [routerLink]="[ menu.url ]" aria-expanded="false">    
                         <i [class]="menu.icono"></i>

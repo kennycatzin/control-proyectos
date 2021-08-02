@@ -3,10 +3,10 @@ declare function init_plugins();
 
 @Component({
   selector: 'app-proyectosddp',
-  templateUrl: './proyectosddp.component.html',
+  templateUrl: './seguros-web.component.html',
   styles: []
 })
-export class ProyectosddpComponent implements OnInit {
+export class SegurosWebComponent implements OnInit {
 
   constructor() { }
 

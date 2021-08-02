@@ -16,7 +16,7 @@ export class UsuariosComponent implements OnInit {
   forma: FormGroup;
   titularAlerta = '';
   durationInSeconds = 5;
-  usuario: Usuario = new Usuario("", "", "", 0, "", 0) ;
+  usuario: Usuario = new Usuario("", "", "", "", 0) ;
   cargando = false;
   objeto: any[];
   totalRegistros = 0;
@@ -121,16 +121,18 @@ export class UsuariosComponent implements OnInit {
     this.cargando = true;
     this.usuarioService.obtenerUsuarios(this.desde)
     .subscribe( (data: any) => {
+      console.log(data);
       this.paginado = true;
-      this.objeto = data.data;
+      this.objeto = data.users;
       this.totalRegistros = data.numero;
       this.cargando = false;
+      console.log(data);
     });
   }
 
   nuevo() {
     // this.ejercicio = new Ejercicio('', 0, '');
-   this.usuario= new Usuario("", "", "", 0, "", 0);
+   this.usuario= new Usuario("", "", "", "", 0);
    }
 
 }
